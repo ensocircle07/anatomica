@@ -39,12 +39,16 @@ Roadmap: [`ARCHITECTURE.md` §19](ARCHITECTURE.md#19-development-roadmap). Each 
 - [x] Build tested with a GitHub-Pages-like local server: deep links return 200, unknown paths 404
 - [x] GitHub Actions deploy workflow
 - [x] README, MIT licence, CC BY-SA 4.0 content licence
-- [x] Local Git repository and first commit
-- [ ] GitHub repository `ensocircle07/anatomica` created
-- [ ] GitHub Pages source set to "GitHub Actions"
-- [ ] First deployment succeeds
-- [ ] Live site verified: home page, nested route, refresh on nested route, unknown path, desktop and mobile
+- [x] Local Git repository and first commit (`8a31355`)
+- [x] GitHub repository `ensocircle07/anatomica` created (public)
+- [x] GitHub Pages source set to "GitHub Actions"
+- [x] First deployment succeeded (Actions run 42222899128, ~3 min)
+- [x] Live site checked over HTTP: `/`, `/about/`, `/about/build/` → 200 with correct titles; `/about/build` → 301 to trailing slash → 200; unknown path → 404 with "Page not found"; JS and CSS → 200
+- [x] Live site rendered in headless Microsoft Edge: home, `/about/build` (direct load = refresh; shows commit `8a31355`) and the not-found page all render
+- [x] Desktop layout (1280 px) checked by screenshot
+- [x] Narrow layout checked at 500 px by screenshot (single column, nothing cut off)
+- [ ] Real phone (≈390 px) check by the owner: headless Edge cannot render narrower than ~500 px
 
-### Known issues
+### Notes
 
-- A separate older npm (10.5.2) is installed in `%APPDATA%\npm` and takes precedence over the npm 11 bundled with Node 26 on this computer. It works, but local and CI npm versions differ. Fix: run `npm uninstall -g npm` once.
+- An older global npm (10.5.2, in `C:\Users\42077\AppData\Roaming\npm\node_modules\npm`) takes precedence over the npm 11.20.0 bundled with Node 26 on this computer. It works with Node 26 and is **deliberately left in place** (owner's decision). Optional removal: `npm uninstall -g npm`, which removes only that npm copy and its `npm`/`npx` launchers; undo with `npm install -g npm@10.5.2`.
