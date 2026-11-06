@@ -1,0 +1,10 @@
+{
+  // Root config: only points at the three sub-projects.
+  // `npm run typecheck` (tsc -b) checks all of them.
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.core.json" },
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}

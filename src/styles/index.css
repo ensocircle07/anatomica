@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Design tokens. Expanded into a full theme (with a light/dark toggle) in Milestone 4. */
+@theme {
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --color-brand-50: #eef6f8;
+  --color-brand-100: #d5e9ee;
+  --color-brand-600: #1f6f82;
+  --color-brand-700: #195a6a;
+  --color-brand-900: #0e3540;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
