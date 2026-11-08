@@ -12,13 +12,15 @@ export interface NavLink {
   href?: string;
   /** True when the target is a stub ("not yet written"). */
   stub?: boolean;
+  /** Set when the link points to an entity page. */
+  entityId?: EntityId;
 }
 
 const regionName = new Map<string, string>(regions.map((r) => [r.id, r.name]));
 const systemName = new Map<string, string>(systems.map((s) => [s.id, s.name]));
 
 function linkTo(entity: Entity): NavLink {
-  return { label: entity.name, href: entityPath(entity), ...(isStub(entity) ? { stub: true } : {}) };
+  return { label: entity.name, href: entityPath(entity), entityId: entity.id, ...(isStub(entity) ? { stub: true } : {}) };
 }
 
 function regionLink(regionId: string): NavLink {

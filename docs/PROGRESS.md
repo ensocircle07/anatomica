@@ -102,9 +102,10 @@ entity pages noindex while accuracy is unchecked). Phone check (Milestone 2) sti
 - [x] Step 4 — `src/core/graph/navigation.ts`: breadcrumbs, "Appears in", "Referenced by", with tests
 - [x] Step 5 — Entity routes generated from content (`src/core/urls.ts`, `routes.ts`); route shells write `robots`
       (41 entity pages noindex); interim entity page; smoke test renders every route with `react-dom/server`
-- [ ] Push and verify deploy (including a nested refresh) — owner review
-- [ ] Step 6 — Region and system hubs
-- [ ] Step 7 — Category-specific structure pages → push and verify — owner review
+- [x] Push and verify deploy (`7439361`, run 42484927638; nested refresh, robots tags) — owner approved
+- [x] Step 6 — Region and system hubs (`/regions/…`, `/systems/…`; indexable); home page with entry points; nav: Regions, Systems, Clinical, About
+- [x] Step 7 — Category-specific structure pages: muscle, nerve (course timeline, "If injured at…"), artery, vein, bone, bone feature, space, compartment, condition, stub; "Appears in" and clinical-significance side panel; sources
+- [ ] Push and verify deploy (nested refresh; noindex on entity pages only) — owner review
 - [ ] Step 8 — Status badge (keyboard-operable details) and `/about/content-status`
 - [ ] Step 9 — Desktop (1280 px) and narrow (500 px) screenshots, light and dark — owner review
 

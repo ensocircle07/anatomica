@@ -11,6 +11,7 @@ import { entities } from "../content/index.ts";
 import { isStub, type Entity, type EntityId } from "../content/schema/index.ts";
 import { isIndexable } from "./status.ts";
 import { entityPath } from "./urls.ts";
+import { hubRoutes } from "./hubs.ts";
 
 export interface RouteMeta {
   /** Path inside the app, always starting with "/" and without a trailing slash. */
@@ -61,7 +62,15 @@ export function entityRoutes(list: readonly Entity[]): RouteMeta[] {
   }));
 }
 
-export const allRoutes: readonly RouteMeta[] = [...staticRoutes, ...entityRoutes(entities)];
+/** Region and system hubs: non-entity pages, always indexable (ADR-0012 §6). */
+export const hubRouteList: readonly RouteMeta[] = hubRoutes().map((h) => ({
+  path: h.path,
+  title: h.title + SUFFIX,
+  description: h.description,
+  indexable: true,
+}));
+
+export const allRoutes: readonly RouteMeta[] = [...staticRoutes, ...hubRouteList, ...entityRoutes(entities)];
 
 const byPath = new Map(allRoutes.map((r) => [r.path, r] as const));
 

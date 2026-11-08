@@ -1,13 +1,16 @@
 import { Link, NavLink, Outlet } from "react-router";
-import { Home, Info, type LucideIcon } from "lucide-react";
+import { Home, Info, Layers, Map, Stethoscope, type LucideIcon } from "lucide-react";
 import { site } from "../content/site.ts";
 import { ThemeToggle } from "./theme/ThemeToggle.tsx";
 
 // Only built sections appear in the navigation (ADR-0012 §3).
-// Hubs are added in step 6; Search, Learn, First Aid and Me in their own milestones.
-const navItems: { to: string; label: string; end: boolean; Icon: LucideIcon }[] = [
-  { to: "/", label: "Home", end: true, Icon: Home },
-  { to: "/about", label: "About", end: false, Icon: Info },
+// Search, Learn, First Aid and Me are added in their own milestones.
+const navItems: { to: string; label: string; end: boolean; Icon: LucideIcon; desktop: boolean }[] = [
+  { to: "/", label: "Home", end: true, Icon: Home, desktop: false },
+  { to: "/regions", label: "Regions", end: false, Icon: Map, desktop: true },
+  { to: "/systems", label: "Systems", end: false, Icon: Layers, desktop: true },
+  { to: "/systems/clinical", label: "Clinical", end: false, Icon: Stethoscope, desktop: true },
+  { to: "/about", label: "About", end: false, Icon: Info, desktop: true },
 ];
 
 export function AppLayout() {
@@ -28,7 +31,7 @@ export function AppLayout() {
           <div className="flex items-center gap-2">
             <nav aria-label="Main" className="hidden md:block">
               <ul className="flex gap-1">
-                {navItems.map((item) => (
+                {navItems.filter((item) => item.desktop).map((item) => (
                   <li key={item.to}>
                     <NavLink
                       to={item.to}

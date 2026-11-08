@@ -1,18 +1,18 @@
 import { Link } from "react-router";
+import { Layers, Map, Stethoscope } from "lucide-react";
 import { site } from "../../content/site.ts";
 import { entities } from "../../content/index.ts";
-import { isStub } from "../../content/schema/index.ts";
-import { entityPath } from "../../core/urls.ts";
+import { inRegion, inSystem, summarise, topRegions } from "../../core/hubs.ts";
+import { regionPath, systemPath } from "../../core/urls.ts";
 import { PageMeta } from "../../app/PageMeta.tsx";
+import { Section } from "../../components/Section.tsx";
 
-// Interim home page (Milestone 4, step 5): lists the seed structures so every generated
-// page can be reached and reviewed. Step 6 replaces the list with region and system hubs.
 export function HomePage() {
-  const written = entities.filter((e) => !isStub(e)).sort((a, b) => a.name.localeCompare(b.name));
-  const stubs = entities.filter(isStub).sort((a, b) => a.name.localeCompare(b.name));
+  const upperLimb = summarise(inRegion(entities, "upper-limb"));
+  const clinical = summarise(inSystem(entities, "clinical"));
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       <PageMeta path="/" />
 
       <section className="space-y-3">
@@ -21,45 +21,48 @@ export function HomePage() {
         <p className="max-w-2xl text-lg text-fg-muted">{site.tagline}</p>
       </section>
 
-      <section aria-labelledby="seed-heading" className="space-y-3">
-        <h2 id="seed-heading" className="text-xl font-semibold">
-          Seed structures
-        </h2>
-        <p className="text-sm text-fg-muted">
-          The first {written.length} written records, from the arm. Region and system hubs replace this list soon.
-        </p>
-        <ul className="grid gap-2 sm:grid-cols-2">
-          {written.map((e) => (
-            <li key={e.id}>
-              <Link
-                to={entityPath(e)}
-                className="flex min-h-11 items-center justify-between rounded border border-line bg-surface-raised px-3 py-2 hover:border-brand"
-              >
-                <span>{e.name}</span>
-                <span className="text-xs text-fg-muted">{e.category.replace("-", " ")}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <ul className="grid gap-4 md:grid-cols-3">
+        {[
+          { to: "/regions", Icon: Map, title: "Regional anatomy", text: "Browse by body region, from the upper limb outwards." },
+          { to: "/systems", Icon: Layers, title: "Systematic anatomy", text: "Bones, joints, muscles, nerves, vessels and spaces." },
+          { to: systemPath("clinical"), Icon: Stethoscope, title: "Clinical anatomy", text: `Conditions explained by the anatomy behind them (${clinical.written} so far).` },
+        ].map(({ to, Icon, title, text }) => (
+          <li key={to}>
+            <Link to={to} className="flex h-full flex-col gap-2 rounded-lg border border-line bg-surface-raised p-5 hover:border-brand">
+              <Icon aria-hidden className="h-6 w-6 text-brand" />
+              <span className="text-lg font-semibold">{title}</span>
+              <span className="text-sm text-fg-muted">{text}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
 
-      <section aria-labelledby="stubs-heading" className="space-y-3">
-        <h2 id="stubs-heading" className="text-xl font-semibold">
-          Referenced, not yet written
-        </h2>
-        <ul className="flex flex-wrap gap-2 text-sm">
-          {stubs.map((e) => (
-            <li key={e.id}>
-              <Link
-                to={entityPath(e)}
-                className="inline-flex min-h-11 items-center rounded border border-stub-line bg-stub-bg px-3 text-stub-fg"
-              >
-                {e.name}
-              </Link>
-            </li>
-          ))}
+      <Section title="Where the atlas is now">
+        <p className="max-w-2xl text-fg-muted">
+          The atlas is written region by region, starting with the upper limb. It currently holds {upperLimb.written} written
+          upper-limb records, mostly from the arm, with {upperLimb.notYetWritten} more referenced but not yet written. Every page
+          shows its review status.
+        </p>
+        <ul className="flex flex-wrap gap-2">
+          {topRegions.map((r) => {
+            const s = summarise(inRegion(entities, r.id));
+            return (
+              <li key={r.id}>
+                <Link
+                  to={regionPath(r.id)}
+                  className={
+                    "inline-flex min-h-11 items-center rounded-full border px-4 text-sm " +
+                    (s.written > 0 ? "border-brand text-brand" : "border-line text-fg-muted")
+                  }
+                >
+                  {r.name}
+                  {s.written > 0 && <span className="ml-1.5 text-xs">({s.written})</span>}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
-      </section>
+      </Section>
     </div>
   );
 }

@@ -58,4 +58,20 @@ describe("every route renders on the server", () => {
   it("renders an entity page with its name as the heading", () => {
     expect(render("/nerves/radial")).toMatch(/<h1[^>]*>Radial nerve<\/h1>/);
   });
+
+  it("renders the category-specific sections", () => {
+    const nerve = render("/nerves/radial");
+    expect(nerve).toContain("If injured at");
+    expect(nerve).toContain("Muscles supplied");
+    expect(render("/muscles/brachialis")).toContain("minor");
+    expect(render("/clinical/humeral-shaft-fracture")).toContain("Why it happens");
+    expect(render("/spaces/quadrangular-space")).toContain("Posterior circumflex humeral artery");
+    expect(render("/bones/humerus")).toContain("Muscle attachments");
+    expect(render("/joints/elbow")).toContain("Referenced by");
+  });
+
+  it("renders hubs with their records", () => {
+    expect(render("/regions/upper-limb/arm")).toContain("Triceps brachii");
+    expect(render("/systems/neurology")).toContain("Radial nerve");
+  });
 });

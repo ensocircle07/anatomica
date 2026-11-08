@@ -16,7 +16,7 @@ describe("breadcrumbs", () => {
   it("put a bone feature under its bone", () => {
     expect(breadcrumbs(graph, "feature.humerus.radial-groove")).toEqual([
       { label: "Osteology", href: "/systems/osteology" },
-      { label: "Humerus", href: "/bones/humerus" },
+      { label: "Humerus", href: "/bones/humerus", entityId: "bone.humerus" },
       { label: "Radial groove" },
     ]);
   });
@@ -29,7 +29,7 @@ describe("breadcrumbs", () => {
 
   it("follow an artery to its stub parent and mark the stub", () => {
     const trail = breadcrumbs(graph, "artery.profunda-brachii");
-    expect(trail[1]).toEqual({ label: "Brachial artery", href: "/arteries/brachial", stub: true });
+    expect(trail[1]).toEqual({ label: "Brachial artery", href: "/arteries/brachial", entityId: "artery.brachial", stub: true });
   });
 
   it("put spaces and conditions under their region", () => {
