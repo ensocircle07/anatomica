@@ -10,7 +10,7 @@ export function NotFoundPage() {
       <p className="text-slate-600 dark:text-slate-300">
         There is no page at <code className="rounded bg-slate-100 px-1 dark:bg-slate-800">{pathname}</code>.
       </p>
-      <Link to="/" className="text-brand-600 underline">
+      <Link to="/" className="text-brand underline">
         Go to the home page
       </Link>
     </section>

@@ -9,13 +9,13 @@
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { staticRoutes } from "../src/core/routes.ts";
+import { allRoutes } from "../src/core/routes.ts";
 import { renderShell, shellFilePath } from "./route-shells.ts";
 
 const distDir = join(import.meta.dirname, "..", "dist");
 const template = readFileSync(join(distDir, "index.html"), "utf8");
 
-for (const route of staticRoutes) {
+for (const route of allRoutes) {
   const outFile = join(distDir, shellFilePath(route.path));
   mkdirSync(dirname(outFile), { recursive: true });
   writeFileSync(outFile, renderShell(template, route));
@@ -28,7 +28,9 @@ writeFileSync(
   renderShell(template, {
     title: "Page not found — ANATOMICA",
     description: "This page does not exist in ANATOMICA.",
+    indexable: false,
   }),
 );
 
-console.log(`Route shells: wrote ${staticRoutes.length} route pages and 404.html`);
+const noindex = allRoutes.filter((r) => !r.indexable).length;
+console.log(`Route shells: wrote ${allRoutes.length} route pages (${noindex} noindex) and 404.html`);

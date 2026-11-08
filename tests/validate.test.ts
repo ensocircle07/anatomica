@@ -134,6 +134,13 @@ const failing: { name: string; rule: RuleId; mutate: (all: Draft[]) => void }[] 
   { name: "feature on a part the bone does not have", rule: "unknown-bone-part",
     mutate: (all) => { get(all, "feature.humerus.radial-groove").part = "middle-third"; } },
 
+  { name: "feature ID naming a different bone", rule: "feature-id-bone-mismatch",
+    mutate: (all) => {
+      const f = structuredClone(get(all, "feature.humerus.posterior-surface"));
+      f.id = "feature.ulna.posterior-surface";
+      all.push(f);
+    } },
+
   // Spaces (amendment C3)
   { name: "contentsOrder missing a derived content", rule: "contents-order-mismatch",
     mutate: (all) => { get(all, "space.quadrangular-space").contentsOrder = { axis: "superior to inferior", order: ["nerve.axillary"] }; } },

@@ -2,11 +2,22 @@
 <html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <!-- The two lines below are replaced per route by scripts/generate-route-shells.ts -->
+    <!-- The three lines below are replaced per route by scripts/generate-route-shells.ts -->
     <title>ANATOMICA — The Clinical Anatomy Atlas</title>
     <meta name="description" content="An interactive clinical anatomy atlas connecting every structure to its relations, supply, function and clinical consequences." />
+    <meta name="robots" content="index, follow" />
+    <!-- Applies the saved theme before the first paint, so the page never flashes the wrong colours (ADR-0012 §8). -->
+    <script>
+      (function () {
+        var choice = null;
+        try { choice = localStorage.getItem("anatomica.theme"); } catch (e) {}
+        var dark = choice === "dark" ||
+          (choice !== "light" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        if (dark) document.documentElement.classList.add("dark");
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

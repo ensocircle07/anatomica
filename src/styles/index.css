@@ -1,15 +1,110 @@
 @import "tailwindcss";
 
-/* Design tokens. Expanded into a full theme (with a light/dark toggle) in Milestone 4. */
-@theme {
+/*
+ * Theme (ADR-0012 §8).
+ * Colours are CSS variables with a light value (:root) and a dark value (.dark).
+ * The .dark class is set on <html> by the inline script in index.html (before first paint)
+ * and by the theme toggle. Components use the token utilities (bg-surface, text-fg, …),
+ * so dark mode is defined here once. tests/theme-contrast.test.ts checks the pairs for WCAG AA.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --surface: #ffffff;
+  --surface-raised: #f8fafc;
+  --surface-sunken: #f1f5f9;
+  --fg: #0f172a;
+  --fg-muted: #475569;
+  --line: #e2e8f0;
+  --brand: #1f6f82;
+  --brand-strong: #195a6a;
+  --focus: #2563eb;
+
+  --draft-bg: #fffbeb;
+  --draft-fg: #78350f;
+  --draft-line: #f59e0b;
+  --stub-bg: #f1f5f9;
+  --stub-fg: #334155;
+  --stub-line: #94a3b8;
+  --checked-bg: #eff6ff;
+  --checked-fg: #1e3a8a;
+  --checked-line: #60a5fa;
+  --reviewed-bg: #f0fdf4;
+  --reviewed-fg: #14532d;
+  --reviewed-line: #22c55e;
+}
+
+.dark {
+  --surface: #0b1220;
+  --surface-raised: #111a2e;
+  --surface-sunken: #070c16;
+  --fg: #e2e8f0;
+  --fg-muted: #94a3b8;
+  --line: #1e293b;
+  --brand: #7cc4d4;
+  --brand-strong: #a5dbe6;
+  --focus: #93c5fd;
+
+  --draft-bg: #2a1d05;
+  --draft-fg: #fcd34d;
+  --draft-line: #b45309;
+  --stub-bg: #1e293b;
+  --stub-fg: #cbd5e1;
+  --stub-line: #475569;
+  --checked-bg: #0b1f3f;
+  --checked-fg: #93c5fd;
+  --checked-line: #2563eb;
+  --reviewed-bg: #052e16;
+  --reviewed-fg: #86efac;
+  --reviewed-line: #16a34a;
+}
+
+@theme inline {
   --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --color-brand-50: #eef6f8;
-  --color-brand-100: #d5e9ee;
-  --color-brand-600: #1f6f82;
-  --color-brand-700: #195a6a;
-  --color-brand-900: #0e3540;
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-focus: var(--focus);
+  --color-draft-bg: var(--draft-bg);
+  --color-draft-fg: var(--draft-fg);
+  --color-draft-line: var(--draft-line);
+  --color-stub-bg: var(--stub-bg);
+  --color-stub-fg: var(--stub-fg);
+  --color-stub-line: var(--stub-line);
+  --color-checked-bg: var(--checked-bg);
+  --color-checked-fg: var(--checked-fg);
+  --color-checked-line: var(--checked-line);
+  --color-reviewed-bg: var(--reviewed-bg);
+  --color-reviewed-fg: var(--reviewed-fg);
+  --color-reviewed-line: var(--reviewed-line);
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--surface);
+  color: var(--fg);
+}
+
+/* Visible focus on every interactive element (ADR-0012 §7). */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Latin names hyphenate correctly when marked lang="la". */
+[lang="la"] {
+  hyphens: auto;
 }

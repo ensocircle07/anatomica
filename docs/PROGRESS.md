@@ -7,7 +7,7 @@ Roadmap: [`ARCHITECTURE.md` §19](ARCHITECTURE.md#19-development-roadmap). Each 
 | 1 | Architecture | ✅ Complete | 2026-11-06 |
 | 2 | Foundation | 🔄 Open only for the owner's phone check | — |
 | 3 | Content engine | ✅ Complete (seed spot-check open) | 2026-11-08 |
-| 4 | Atlas UI | ⏳ Not started | — |
+| 4 | Atlas UI | 🔄 In progress | — |
 | 5 | Search | ⏳ Not started | — |
 | 6 | Upper limb vertical slice | ⏳ Not started | — |
 | 7 | Diagrams | ⏳ Not started | — |
@@ -89,3 +89,22 @@ After checking, update the record (and `meta.status.accuracy` only if sources we
 ### Notes
 
 - An older global npm (10.5.2, in `C:\Users\42077\AppData\Roaming\npm\node_modules\npm`) takes precedence over the npm 11.20.0 bundled with Node 26 on this computer. It works with Node 26 and is **deliberately left in place** (owner's decision). Optional removal: `npm uninstall -g npm`, which removes only that npm copy and its `npm`/`npx` launchers; undo with `npm install -g npm@10.5.2`.
+
+## Milestone 4 — Atlas UI 🔄
+
+Plan approved 2026-11-08 with answers recorded in ADR-0012 (ID-based URLs; stub pages; only built sections
+in the navigation; `<Abbr>` deferred to Milestone 5; no new dependencies plus a server-render smoke test;
+entity pages noindex while accuracy is unchecked). Phone check (Milestone 2) still open.
+
+- [x] Step 1 — ADR-0012
+- [x] Step 2 — Theme tokens (light/dark CSS variables), System/Light/Dark toggle, pre-paint script; WCAG AA contrast test
+- [x] Step 3 — App shell: skip link, header nav, draft-atlas strip, mobile bottom bar (≥ 44 px targets), visible focus
+- [x] Step 4 — `src/core/graph/navigation.ts`: breadcrumbs, "Appears in", "Referenced by", with tests
+- [x] Step 5 — Entity routes generated from content (`src/core/urls.ts`, `routes.ts`); route shells write `robots`
+      (41 entity pages noindex); interim entity page; smoke test renders every route with `react-dom/server`
+- [ ] Push and verify deploy (including a nested refresh) — owner review
+- [ ] Step 6 — Region and system hubs
+- [ ] Step 7 — Category-specific structure pages → push and verify — owner review
+- [ ] Step 8 — Status badge (keyboard-operable details) and `/about/content-status`
+- [ ] Step 9 — Desktop (1280 px) and narrow (500 px) screenshots, light and dark — owner review
+

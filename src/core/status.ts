@@ -20,3 +20,11 @@ export function statusBadge(meta: ContentMeta): string {
   if (meta.status.accuracy === "fact-checked") return "Fact-checked — clinical review pending";
   return "Draft — not yet expert-reviewed";
 }
+
+/**
+ * Whether an entity page may be indexed by search engines (ADR-0012 §6): only written records whose
+ * accuracy is above "unchecked". Computed from status, never stored.
+ */
+export function isIndexable(entity: { meta: ContentMeta; stub?: true }): boolean {
+  return entity.stub !== true && entity.meta.status.accuracy !== "unchecked";
+}

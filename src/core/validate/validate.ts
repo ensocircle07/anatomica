@@ -46,6 +46,7 @@ export type RuleId =
   | "duplicate-head"
   | "unknown-head"
   | "unknown-bone-part"
+  | "feature-id-bone-mismatch"
   | "contents-order-mismatch"
   | "frequency-needs-citation"
   | "not-applicable-filled";
@@ -382,6 +383,12 @@ export function validateContent(input: ContentInput): Issue[] {
 
     // Bone features: part exists on the bone
     if (full.category === "bone-feature") {
+      // ADR-0012 §1: the feature's URL is nested under the bone named in its ID.
+      const idBone = id.split(".")[1];
+      const boneName = full.bone.split(".").slice(1).join(".");
+      if (idBone !== boneName) {
+        report("feature-id-bone-mismatch", id, "bone", `ID names bone "${idBone}" but the feature belongs to "${full.bone}"`);
+      }
       const bone = byId.get(full.bone);
       if (bone && !isStub(bone) && bone.category === "bone" && !bone.partsLayout.some((p) => p.key === full.part)) {
         report("unknown-bone-part", id, "part", `"${full.bone}" has no part "${full.part}"`);

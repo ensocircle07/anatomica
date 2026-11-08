@@ -17,6 +17,6 @@ export default defineConfig({
     __BUILD_TIME__: JSON.stringify(builtAt),
   },
   test: {
-    include: ["tests/**/*.test.ts"],
+    include: ["tests/**/*.test.ts", "src/**/*.test.tsx"],
   },
 });

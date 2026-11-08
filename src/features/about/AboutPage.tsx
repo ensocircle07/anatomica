@@ -16,7 +16,7 @@ export function AboutPage() {
         and has not been checked by a qualified reviewer.
       </p>
       <p className="text-sm">
-        <Link to="/about/build" className="text-brand-600 underline">
+        <Link to="/about/build" className="text-brand underline">
           Build information
         </Link>
       </p>
