@@ -15,7 +15,8 @@
     "test": "vitest run",
     "build": "vite build && node scripts/generate-route-shells.ts",
     "verify": "npm run typecheck && npm run check:boundaries && npm run test && npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate": "node scripts/validate-content.ts"
   },
   "dependencies": {
     "lucide-react": "^1.70.0",

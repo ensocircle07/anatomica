@@ -114,6 +114,10 @@ The original specification proposed both `content/` and `data/`. They are merged
 
 ## 4. Content data model
 
+> **Refined by [ADR-0011](decisions/0011-content-schema-refinements.md).** From Milestone 3 the
+> authoritative schema is the TypeScript in `src/content/schema/`. The sketches in §4–6 show intent;
+> notably, branches, contents, clinical links and diagram references are now stored on one side only.
+
 ### Stable IDs
 
 Readable, namespaced and **never renamed** once published:

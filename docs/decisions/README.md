@@ -15,3 +15,4 @@ Decisions are changed by adding a new record that supersedes the old one, never 
 | [0008](0008-british-english.md) | British English canonical; American spellings searchable | Accepted | 2026-11-06 |
 | [0009](0009-node-lts.md) | Use Node.js 26 LTS | Accepted | 2026-11-06 |
 | [0010](0010-content-reviewer.md) | Content reviewer status | Accepted (pending confirmation) | 2026-11-06 |
+| [0011](0011-content-schema-refinements.md) | Content schema refinements (stubs, single-sided edges, conduits) | Accepted | 2026-11-08 |
