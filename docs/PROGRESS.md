@@ -5,8 +5,8 @@ Roadmap: [`ARCHITECTURE.md` §19](ARCHITECTURE.md#19-development-roadmap). Each 
 | # | Milestone | Status | Approved |
 |---|---|---|---|
 | 1 | Architecture | ✅ Complete | 2026-11-06 |
-| 2 | Foundation | 🔄 In progress | — |
-| 3 | Content engine | 🔄 In progress (awaiting owner review) | — |
+| 2 | Foundation | 🔄 Open only for the owner's phone check | — |
+| 3 | Content engine | ✅ Complete (seed spot-check open) | 2026-11-08 |
 | 4 | Atlas UI | ⏳ Not started | — |
 | 5 | Search | ⏳ Not started | — |
 | 6 | Upper limb vertical slice | ⏳ Not started | — |
@@ -49,7 +49,7 @@ Roadmap: [`ARCHITECTURE.md` §19](ARCHITECTURE.md#19-development-roadmap). Each 
 - [x] Narrow layout checked at 500 px by screenshot (single column, nothing cut off)
 - [ ] Real phone (≈390 px) check by the owner: headless Edge cannot render narrower than ~500 px — **still open** (owner, 2026-11-08: not done yet)
 
-## Milestone 3 — Content engine 🔄
+## Milestone 3 — Content engine ✅
 
 Started 2026-11-08 with the owner's approval; Milestone 2's phone check is still open.
 
@@ -63,8 +63,28 @@ Started 2026-11-08 with the owner's approval; Milestone 2's phone check is still
 - [x] Step 7 — Graph tests, incl. brachialis distractor case and quadrangular-space derived contents (68 tests in total)
 - [x] Step 8 — `validate` and coverage check wired into `npm run verify` and the deploy workflow; confirmed that invalid content exits with code 1
 - [x] Step 9 — `CONTENT_GUIDE.md`, README, this tracker
-- [ ] Owner spot-check of the AI-drafted seed content
-- [ ] Push and confirm the deployment succeeds
+- [x] Owner approved steps 5–9 and the generated `CONTENT_STATUS.md` (2026-11-08)
+- [x] Pushed `981cc9a`; Actions run 42482947906 succeeded, with separate passing steps for Typecheck, Boundary check, **Validate content**, **Check docs/CONTENT_STATUS.md is up to date**, Tests and Build
+- [x] Live `/about/build/` returns 200 and its bundle contains commit `981cc9a`
+
+### Open: owner spot-check of the AI-drafted seed content
+
+All seed records are `accuracy: unchecked`. Check against your sources, least certain first.
+After checking, update the record (and `meta.status.accuracy` only if sources were actually compared).
+
+- [ ] **Triceps nerve supply split** (`src/content/entities/myology/upper-limb/arm.ts`): long head and part of the medial head from branches arising in the axilla; lateral head and the rest of the medial head from branches arising in the radial groove. Roots C6–C8, mainly C7. The lesion-level logic depends on this.
+- [ ] **Triceps blood supply:** confirm the profunda brachii is recorded as a main supply. (It is currently listed for the whole muscle, with no head restriction; `bloodSupply` has no main/minor field yet.) Also check: posterior circumflex humeral to the long and lateral heads; superior ulnar collateral to the medial head.
+- [ ] **Triceps origins and insertion:** lateral head above the radial groove; medial head below it plus both intermuscular septa; insertion on the posterior part of the olecranon's superior surface.
+- [ ] **Brachialis:** origin from the distal half of the anteromedial and anterolateral surfaces plus both septa; insertion on the coronoid process and ulnar tuberosity; musculocutaneous roots C5–C6; the radial supply to a lateral part only. Blood supply lists only the brachial artery (probably incomplete). Root value of the radial branch is deliberately missing.
+- [ ] **Root values:** musculocutaneous C5–C7, axillary C5–C6, radial C5–T1.
+- [ ] **Radial nerve course** (`src/content/entities/neurology/upper-limb/nerves.ts`): axilla → triangular interval → radial groove → pierces the lateral intermuscular septum → between brachialis and brachioradialis → divides in front of the lateral epicondyle. Check the relation positions in each segment.
+- [ ] **Profunda brachii:** origin, termination as the middle and radial collateral arteries, anastomosis with the posterior circumflex humeral artery.
+- [ ] **Quadrangular space boundaries:** teres minor above (subscapularis note), teres major below, long head of triceps medially, surgical neck laterally.
+- [ ] **Humerus:** side-identification text; the list of 8 ossification centres (no ages recorded).
+- [ ] **Humeral shaft fracture:** the triceps-sparing statement and the area of sensory loss; palsy frequency left `uncertain`.
+- [ ] **Triceps variation:** axillary nerve branch to the long head, frequency `uncertain`.
+- [ ] **References:** which editions of Gray's Anatomy and Clinically Oriented Anatomy you actually have (records say 42nd and 9th, marked unconfirmed).
+- [ ] **Latin names and synonyms:** e.g. "circumflex nerve", "quadrilateral space", "deep brachial artery", "Sulcus nervi radialis".
 
 ### Notes
 
