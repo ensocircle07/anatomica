@@ -14,9 +14,10 @@
     "check:boundaries": "node scripts/check-boundaries.ts",
     "test": "vitest run",
     "build": "vite build && node scripts/generate-route-shells.ts",
-    "verify": "npm run typecheck && npm run check:boundaries && npm run test && npm run build",
+    "verify": "npm run typecheck && npm run check:boundaries && npm run validate && npm run coverage -- --check && npm run test && npm run build",
     "preview": "vite preview",
-    "validate": "node scripts/validate-content.ts"
+    "validate": "node scripts/validate-content.ts",
+    "coverage": "node scripts/coverage-report.ts"
   },
   "dependencies": {
     "lucide-react": "^1.70.0",

@@ -1,8 +1,8 @@
 # Builds and deploys ANATOMICA to https://ensocircle07.github.io/anatomica/
 #
 # Runs on every push to the main branch (and can be started by hand from the
-# Actions tab). If the typecheck, boundary check, tests or build fail,
-# nothing is deployed.
+# Actions tab). If the typecheck, boundary check, content validation,
+# coverage-report check, tests or build fail, nothing is deployed.
 
 name: Deploy to GitHub Pages
 
@@ -37,8 +37,23 @@ jobs:
       - name: Install dependencies (exactly as locked)
         run: npm ci
 
-      - name: Typecheck, boundary check, tests and build
-        run: npm run verify
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Boundary check (content and core stay free of UI code)
+        run: npm run check:boundaries
+
+      - name: Validate content (invalid content stops the deployment)
+        run: npm run validate
+
+      - name: Check docs/CONTENT_STATUS.md is up to date
+        run: npm run coverage -- --check
+
+      - name: Tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6

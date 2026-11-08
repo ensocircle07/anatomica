@@ -18,6 +18,8 @@ ANATOMICA is a free, open-source, interactive human anatomy atlas. Every anatomi
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | The approved architecture and roadmap |
 | [`docs/decisions/`](docs/decisions/) | Each architectural decision and the reason for it |
 | [`docs/PROGRESS.md`](docs/PROGRESS.md) | Development progress tracker |
+| [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md) | How to write and check a content record |
+| [`docs/CONTENT_STATUS.md`](docs/CONTENT_STATUS.md) | Generated report: what content exists and its review status |
 
 ---
 
@@ -41,9 +43,11 @@ npm install
 | Command | What it does |
 |---|---|
 | `npm run dev` | Starts a local development server. Open the address it prints (http://localhost:5173/anatomica/). Changes appear instantly. Stop with `Ctrl+C`. |
-| `npm run verify` | Runs **every** check, exactly as GitHub does before deploying: typecheck, boundary check, tests and build. Run this before every commit. |
+| `npm run verify` | Runs **every** check, exactly as GitHub does before deploying: typecheck, boundary check, content validation, coverage-report check, tests and build. Run this before every commit. |
 | `npm run typecheck` | Checks the TypeScript types only. |
 | `npm run check:boundaries` | Confirms `src/content` and `src/core` do not import React or UI code. |
+| `npm run validate` | Checks every content record (missing references, wrong categories, unverified page numbers, status rules…). |
+| `npm run coverage` | Regenerates `docs/CONTENT_STATUS.md`. Run it after changing content, then commit the file. |
 | `npm test` | Runs the automated tests (Vitest). |
 | `npm run build` | Builds the production site into `dist/`, including one page per route. |
 | `npm run preview` | Serves the built `dist/` folder locally. |
@@ -55,7 +59,7 @@ npm install
 Every push to the `main` branch runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) on GitHub:
 
 1. `npm ci` installs the exact dependency versions from `package-lock.json`.
-2. `npm run verify` runs typecheck, boundary check, tests and build. **If any of them fails, nothing is deployed.**
+2. Typecheck, boundary check, content validation, coverage-report check, tests and build run in turn. **If any of them fails, nothing is deployed.**
 3. The `dist/` folder is published to GitHub Pages.
 
 Progress is visible in the repository's **Actions** tab. The page `/about/build` on the live site shows the commit that is currently deployed.
@@ -76,11 +80,13 @@ anatomica/
 ├── docs/                          Architecture, decisions, progress
 ├── scripts/
 │   ├── check-boundaries.ts        Keeps content and core free of UI code
+│   ├── validate-content.ts        `npm run validate`
+│   ├── coverage-report.ts         `npm run coverage` → docs/CONTENT_STATUS.md
 │   ├── generate-route-shells.ts   Writes one index.html per route after the build
 │   └── route-shells.ts            Helpers used by the script above (tested)
 ├── src/
 │   ├── content/                   PURE DATA — anatomy, first aid, site identity (no React)
-│   ├── core/                      PURE LOGIC — routes; later graph, search, quiz (no React)
+│   ├── core/                      PURE LOGIC — routes, validator, graph, coverage; later search, quiz (no React)
 │   ├── app/                       App shell: router, layout, page metadata, "not found" page
 │   ├── features/                  Pages grouped by feature (home, about, …)
 │   ├── styles/                    Tailwind CSS entry point and design tokens

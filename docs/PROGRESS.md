@@ -6,7 +6,7 @@ Roadmap: [`ARCHITECTURE.md` §19](ARCHITECTURE.md#19-development-roadmap). Each 
 |---|---|---|---|
 | 1 | Architecture | ✅ Complete | 2026-11-06 |
 | 2 | Foundation | 🔄 In progress | — |
-| 3 | Content engine | ⏳ Not started | — |
+| 3 | Content engine | 🔄 In progress (awaiting owner review) | — |
 | 4 | Atlas UI | ⏳ Not started | — |
 | 5 | Search | ⏳ Not started | — |
 | 6 | Upper limb vertical slice | ⏳ Not started | — |
@@ -47,7 +47,24 @@ Roadmap: [`ARCHITECTURE.md` §19](ARCHITECTURE.md#19-development-roadmap). Each 
 - [x] Live site rendered in headless Microsoft Edge: home, `/about/build` (direct load = refresh; shows commit `8a31355`) and the not-found page all render
 - [x] Desktop layout (1280 px) checked by screenshot
 - [x] Narrow layout checked at 500 px by screenshot (single column, nothing cut off)
-- [ ] Real phone (≈390 px) check by the owner: headless Edge cannot render narrower than ~500 px
+- [ ] Real phone (≈390 px) check by the owner: headless Edge cannot render narrower than ~500 px — **still open** (owner, 2026-11-08: not done yet)
+
+## Milestone 3 — Content engine 🔄
+
+Started 2026-11-08 with the owner's approval; Milestone 2's phone check is still open.
+
+- [x] Schema proposal approved with amendments A–D; recorded in ADR-0011
+- [x] Step 1 — Schema types (`src/content/schema/`)
+- [x] Step 2 — Taxonomy (regions, systems) and 3 reference records (no unconfirmed details, no locators)
+- [x] Step 3 — Seed: 14 full records + 27 stubs; all accuracy `unchecked`, all citations `locatorVerified: false`
+- [x] Step 4 — Validator (`npm run validate`, 29 rules), one failing-example test per rule
+- [x] Step 5 — Graph builder (reverse relationships), lesion-level deficits, synergists/antagonists, distractor check
+- [x] Step 6 — Seed manifest and coverage report (`npm run coverage` → `docs/CONTENT_STATUS.md`)
+- [x] Step 7 — Graph tests, incl. brachialis distractor case and quadrangular-space derived contents (68 tests in total)
+- [x] Step 8 — `validate` and coverage check wired into `npm run verify` and the deploy workflow; confirmed that invalid content exits with code 1
+- [x] Step 9 — `CONTENT_GUIDE.md`, README, this tracker
+- [ ] Owner spot-check of the AI-drafted seed content
+- [ ] Push and confirm the deployment succeeds
 
 ### Notes
 
