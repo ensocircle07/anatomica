@@ -125,6 +125,8 @@ const failing: { name: string; rule: RuleId; mutate: (all: Draft[]) => void }[] 
       const heads = get(all, "muscle.triceps-brachii").heads;
       heads.push({ ...structuredClone(heads[0]), name: "Second long head" });
     } },
+  { name: "blood supply contribution outside main/minor", rule: "unknown-vocabulary",
+    mutate: (all) => { get(all, "muscle.triceps-brachii").bloodSupply[0].contribution = "variable"; } },
   { name: "unknown movement", rule: "unknown-vocabulary",
     mutate: (all) => { get(all, "muscle.brachialis").actions[0].movement = "bending"; } },
 

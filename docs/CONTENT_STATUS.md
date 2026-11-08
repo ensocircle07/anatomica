@@ -56,8 +56,8 @@ Fields that are neither filled nor marked not applicable.
 | `feature.humerus.posterior-surface` | taId |
 | `feature.humerus.radial-groove` | taId |
 | `feature.humerus.surgical-neck` | taId |
-| `muscle.brachialis` | taId, palpation, innervation[1].roots (nerve.radial) |
-| `muscle.triceps-brachii` | taId |
+| `muscle.brachialis` | taId, palpation, innervation[1].roots (nerve.radial), bloodSupply[0].contribution (artery.brachial) |
+| `muscle.triceps-brachii` | taId, bloodSupply[1].contribution (artery.posterior-circumflex-humeral), bloodSupply[2].contribution (artery.superior-ulnar-collateral) |
 | `nerve.axillary` | taId |
 | `nerve.musculocutaneous` | taId |
 | `nerve.radial` | taId |

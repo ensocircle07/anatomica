@@ -129,6 +129,17 @@ export interface Innervation {
   note?: Prose;
 }
 
+export interface BloodSupply {
+  artery: EntityId;
+  /**
+   * ADR-0011 addendum 1. Optional: set only when confirmed by the owner;
+   * a missing value is reported as incomplete in the coverage report.
+   */
+  contribution?: "main" | "minor";
+  /** Head keys this supply applies to; omitted = whole muscle. */
+  heads?: string[];
+}
+
 export interface Muscle extends BaseEntity {
   category: "muscle";
   compartment?: EntityId;
@@ -139,7 +150,7 @@ export interface Muscle extends BaseEntity {
   origin: Attachment[];
   insertion: Attachment[];
   innervation: Innervation[];
-  bloodSupply: { artery: EntityId; heads?: string[] }[];
+  bloodSupply: BloodSupply[];
   actions: { joint: EntityId; movement: Movement; role: "prime" | "secondary" | "stabiliser"; heads?: string[] }[];
   palpation?: Prose;
   // GENERATED: synergists, antagonists

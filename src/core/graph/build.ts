@@ -4,6 +4,7 @@
 
 import {
   isStub,
+  type BloodSupply,
   type Entity,
   type EntityId,
   type FullEntity,
@@ -35,6 +36,12 @@ export interface AttachmentRef {
   detail?: string;
 }
 
+export interface SuppliedMuscle {
+  muscle: EntityId;
+  contribution?: BloodSupply["contribution"];
+  heads?: string[];
+}
+
 export interface ActionRef {
   muscle: EntityId;
   movement: Movement;
@@ -59,7 +66,7 @@ export interface Graph {
   /** structure → spaces it helps to bound (from Space.boundaries). */
   boundaryOf: ReadonlyMap<EntityId, { space: EntityId; side: string }[]>;
   /** artery → muscles it supplies (from Muscle.bloodSupply). */
-  supplies: ReadonlyMap<EntityId, { muscle: EntityId; heads?: string[] }[]>;
+  supplies: ReadonlyMap<EntityId, SuppliedMuscle[]>;
   /** compartment → muscles (from Muscle.compartment). */
   compartmentMuscles: ReadonlyMap<EntityId, EntityId[]>;
   /** joint → muscles acting on it (from Muscle.actions). */
@@ -82,7 +89,7 @@ export function buildGraph(entities: readonly Entity[]): Graph {
   const attachments = new Map<EntityId, AttachmentRef[]>();
   const passesThrough = new Map<EntityId, EntityId[]>();
   const boundaryOf = new Map<EntityId, { space: EntityId; side: string }[]>();
-  const supplies = new Map<EntityId, { muscle: EntityId; heads?: string[] }[]>();
+  const supplies = new Map<EntityId, SuppliedMuscle[]>();
   const compartmentMuscles = new Map<EntityId, EntityId[]>();
   const jointActions = new Map<EntityId, ActionRef[]>();
   const clinical = new Map<EntityId, { condition: EntityId; role: string }[]>();
@@ -141,7 +148,13 @@ export function buildGraph(entities: readonly Entity[]): Graph {
         }
         for (const a of e.origin) push(attachments, a.site, { muscle: e.id, kind: "origin", ...(a.detail ? { detail: a.detail } : {}) });
         for (const a of e.insertion) push(attachments, a.site, { muscle: e.id, kind: "insertion", ...(a.detail ? { detail: a.detail } : {}) });
-        for (const b of e.bloodSupply) push(supplies, b.artery, { muscle: e.id, ...(b.heads ? { heads: b.heads } : {}) });
+        for (const b of e.bloodSupply) {
+          push(supplies, b.artery, {
+            muscle: e.id,
+            ...(b.contribution ? { contribution: b.contribution } : {}),
+            ...(b.heads ? { heads: b.heads } : {}),
+          });
+        }
         if (e.compartment) push(compartmentMuscles, e.compartment, e.id);
         for (const a of e.actions) {
           push(jointActions, a.joint, { muscle: e.id, movement: a.movement, role: a.role, ...(a.heads ? { heads: a.heads } : {}) });

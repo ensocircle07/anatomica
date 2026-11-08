@@ -29,6 +29,7 @@ export function missingFields(e: FullEntity): string[] {
   });
   if (e.category === "muscle") {
     e.innervation.forEach((n, i) => { if (!n.roots) missing.push(`innervation[${i}].roots (${n.nerve})`); });
+    e.bloodSupply.forEach((b, i) => { if (!b.contribution) missing.push(`bloodSupply[${i}].contribution (${b.artery})`); });
   }
   return missing;
 }

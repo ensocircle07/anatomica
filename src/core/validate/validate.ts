@@ -68,6 +68,7 @@ const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\.[a-z0-9]+(?:-[a-z0-9]+)*)+$/;
 /** A page number in a locator: "p. 12", "pp 12–14", "page 7", "pages", or a bare number. */
 const PAGE_PATTERN = /\b(?:p|pp|page|pages)\b\.?\s*\d|^\s*\d+\s*(?:[-–]\s*\d+)?\s*$/i;
 const PROSE_LINK = /\[\[([^\]]+)\]\]/g;
+const BLOOD_SUPPLY_CONTRIBUTIONS: readonly string[] = ["main", "minor"];
 const STUB_KEYS = new Set(["id", "category", "name", "regions", "systems", "stub", "meta"]);
 
 // ── Reference targets ───────────────────────────────
@@ -365,7 +366,12 @@ export function validateContent(input: ContentInput): Issue[] {
           report("unknown-segment", id, `${path}.arisesIn`, `"${nerve.id}" has no course segment "${n.arisesIn}"`);
         }
       });
-      full.bloodSupply.forEach((b, i) => checkHeads(b.heads, `bloodSupply[${i}].heads`));
+      full.bloodSupply.forEach((b, i) => {
+        checkHeads(b.heads, `bloodSupply[${i}].heads`);
+        if (b.contribution !== undefined && !BLOOD_SUPPLY_CONTRIBUTIONS.includes(b.contribution)) {
+          report("unknown-vocabulary", id, `bloodSupply[${i}].contribution`, `unknown contribution "${b.contribution}"; use "main" or "minor"`);
+        }
+      });
       full.actions.forEach((a, i) => {
         checkHeads(a.heads, `actions[${i}].heads`);
         if (!(movements as readonly string[]).includes(a.movement)) {

@@ -121,3 +121,20 @@ of the humerus; "lateral rotation of the scapula" is a synonym handled in prose 
 - Every relationship has exactly one stored side; the graph builder generates the rest.
 - Seed content can reference structures that are not yet written, honestly reported as missing.
 - Lesion-level deficits and quiz distractor checks can be derived from data.
+
+## Addendum 1 — Blood supply contribution (2026-11-08)
+
+**Context.** Innervation records `contribution`, but blood supply did not, so the main arterial supply of a
+muscle could not be distinguished from a minor one. Raised by the owner during the seed spot-check.
+
+**Decision.**
+- `Muscle.bloodSupply[]` gains `contribution?: "main" | "minor"`, matching innervation's main/minor
+  (blood supply has no `variable` value).
+- The field is **optional** and is set **only when the owner has confirmed it**. A missing value is listed
+  under "Missing optional fields" in `docs/CONTENT_STATUS.md`; values are not guessed.
+- The validator rejects any other value (`unknown-vocabulary`). The graph's "supplies" list carries the value.
+- Seed: profunda brachii → triceps brachii is `main` (owner-confirmed). The posterior circumflex humeral and
+  superior ulnar collateral supplies to triceps, and the brachial artery supply to brachialis, stay unset.
+
+**Consequences.** Artery pages can rank the muscles they supply, and quiz generation can avoid
+treating a minor supplier as a wrong answer, as with innervation.

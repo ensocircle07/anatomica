@@ -75,7 +75,7 @@ export const tricepsBrachii: Muscle = {
     },
   ],
   bloodSupply: [
-    { artery: "artery.profunda-brachii" },
+    { artery: "artery.profunda-brachii", contribution: "main" }, // owner-confirmed 2026-11-08
     { artery: "artery.posterior-circumflex-humeral", heads: ["long", "lateral"] },
     { artery: "artery.superior-ulnar-collateral", heads: ["medial"] },
   ],

@@ -77,6 +77,18 @@ describe("other reverse relationships", () => {
     ]);
   });
 
+  it("lists the profunda brachii as a main supply to triceps", () => {
+    expect(graph.supplies.get("artery.profunda-brachii")).toEqual([
+      { muscle: "muscle.triceps-brachii", contribution: "main" },
+    ]);
+  });
+
+  it("leaves unconfirmed blood supply contributions unset", () => {
+    expect(graph.supplies.get("artery.posterior-circumflex-humeral")).toEqual([
+      { muscle: "muscle.triceps-brachii", heads: ["long", "lateral"] },
+    ]);
+  });
+
   it("lists muscles supplied by an artery and in a compartment", () => {
     expect(graph.supplies.get("artery.profunda-brachii")?.map((s) => s.muscle)).toEqual(["muscle.triceps-brachii"]);
     expect(graph.compartmentMuscles.get("compartment.arm.posterior")).toEqual(["muscle.triceps-brachii"]);
@@ -153,5 +165,7 @@ describe("status and coverage", () => {
     const b = buildCoverageReport({ entities, references, manifests });
     expect(a).toBe(b);
     expect(a).toContain("| Arm — muscles | 2/4 | 2 | 0 |");
+    expect(a).toContain("bloodSupply[0].contribution (artery.brachial)");
+    expect(a).not.toContain("contribution (artery.profunda-brachii)");
   });
 });
